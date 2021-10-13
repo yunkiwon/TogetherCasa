@@ -1,6 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keyn51GHF4i2FByGg'}).base('appLgqt3Za2Pz2LD8');
+
+console.log(process.env)
+var airtableKey = process.env.REACT_APP_AIRTABLE_KEY
+var base = new Airtable({apiKey: airtableKey}).base('appLgqt3Za2Pz2LD8');
 //move to process env 
 
 const app = express();

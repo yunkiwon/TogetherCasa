@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 
 import CasaCard from './components/CasaCard.js'
 import Modal from './components/Modal.js'
