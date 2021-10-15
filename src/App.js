@@ -62,8 +62,16 @@ function App() {
   const closeModal =() => {
     setShowModal(false)
     setModalData(null)
+    console.log(casaListings)
   }
   
+  const onApplied = (uuid) => {
+    console.log(uuid)
+    setCasaListings(casaListings.map(casa => {
+         if(casa.UUID !== uuid) return casa
+         return {...casa, applied: true}
+    }))
+}
 
   //list of edge cases: 
     //have already applied 
@@ -85,15 +93,15 @@ function App() {
           <CasaCard house={house} key={house.UUID}/>
           </div>
         ))}
-          {showModal && (
+      </div>
+      </div>
+      {showModal && (
               <div className="fixed flex z-10 inset-0 overflow-y-auto min-h-full bg-gray-500 bg-opacity-75 items-center justify-center"> 
-              <div ref={ref} className="">
-              <Modal ref={ref} data={modalData} closeModal={closeModal}/>
-              </div>
+                <div ref={ref} className="w-3/5">
+                  <Modal data={modalData} closeModal={closeModal} onApplied={onApplied}/>
+                </div>
             </div>
-          )}
-      </div>
-      </div>
+          )}  
     </div>
   );
 }

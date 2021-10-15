@@ -63,7 +63,7 @@ app.get('/rental-data', (req, res) => {
 app.post('/application', (req, res) => {
 
   data = req.body
-  base('Lads').create([
+  base('Leads').create([
     {
       "fields": {
         "Name": `${data.name}`,
@@ -73,15 +73,14 @@ app.post('/application', (req, res) => {
     },
   ], function(err, records) {
     if (err) {
-      console.error(err);
       res.sendStatus(500)
       res.send(err); 
       return;
     }
     else{
+      console.log(records)
       sendTextMessage()
       res.sendStatus(200)
-      res.send("")
     }
   });  
 
