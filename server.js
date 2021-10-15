@@ -3,13 +3,13 @@ const express = require('express');
 var Airtable = require('airtable');
 var bodyParser = require('body-parser')
 
-//separate env file for protecting api keys 
 var airtableKey = process.env.REACT_APP_AIRTABLE_KEY
 var base = new Airtable({apiKey: airtableKey}).base('appLgqt3Za2Pz2LD8');
-//move to process env 
 
-const accountSid = process.env.REACT_APP_TWILIO_ACCOUNT_SID_TEST
-const authToken = process.env.REACT_APP_TWILIO_AUTH_TOKEN_TEST
+const accountSid = process.env.REACT_APP_TWILIO_ACCOUNT_SID
+const authToken = process.env.REACT_APP_TWILIO_AUTH_TOKEN
+const messagingSid = process.env.REACT_APP_TWILIO_MESSAGING_SID 
+
 const client = require('twilio')(accountSid, authToken)
 
 const app = express();
@@ -83,43 +83,14 @@ app.post('/application', (req, res) => {
       res.sendStatus(200)
     }
   });  
-
-
-  //what if we await createairtable row for a return of success, 
-  //then if success, we send a text & res.sendStatus(200)
 }, 
 )
 
-
-// const createAirTableRow = (data) => {
-//   base('Leads').create([
-//     {
-//       "fields": {
-//         "Name": `${data.name}`,
-//         "Status": "Applied",
-//         "Casa ID": `${data.uuid}`
-//       }
-//     },
-//   ], function(err, records) {
-//     if (err) {
-//       console.error(err);
-//       return;
-//     }
-//     else{
-//       sendTextMessage()
-//       console.log(records)
-//       return records 
-//     }
-//   });  
-// }
-
-
-
 const sendTextMessage = () => {
   client.messages.create({
-    body: "Someone applied (from NodeJS)!", 
-    messagingServiceSid: 'MG6c5fb7771050fea74987d3808fba5893',
-    to: '+17148868307',
+    body: "Someone applied", 
+    messagingServiceSid: messagingSid,
+    to: '+19493318838',
   }, function(err) {
     if (err) {
       console.log(err); 

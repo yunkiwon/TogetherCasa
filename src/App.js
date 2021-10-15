@@ -12,10 +12,10 @@ function App() {
     fetchAvailableCasas();
   }, []);
 
+
+  //Detecting mouseclicks outside of the referenced modal 
   let ref = useRef() 
 
-
-  //separate function out later
   function useOnClickOutside(ref, handler) {
     useEffect(
       () => {
@@ -40,6 +40,7 @@ function App() {
 
   useOnClickOutside(ref, () => setShowModal(false));
 
+  //Fetching list of casas from airtable (presorted 'ready' table)
   const fetchAvailableCasas = async () => {
     const response = await fetch('/rental-data');
     const body = await response.json();
@@ -58,13 +59,15 @@ function App() {
 
 
   //for closing via button click rather than outside click 
-  //passed as a prop to the modal component
   const closeModal =() => {
     setShowModal(false)
     setModalData(null)
     console.log(casaListings)
   }
   
+  //once applied, the user should not be able to apply again. adds a 'applied' property 
+  //to the state object and sets as 'true'. later can connect to user's sessionID / uuid
+
   const onApplied = (uuid) => {
     console.log(uuid)
     setCasaListings(casaListings.map(casa => {
@@ -73,11 +76,6 @@ function App() {
     }))
 }
 
-  //list of edge cases: 
-    //have already applied 
-    //missing data 
-    //twilio or airtable down for some reason (error messages) 
-    //
 
   return (
     <div className="App">
@@ -96,7 +94,7 @@ function App() {
       </div>
       </div>
       {showModal && (
-              <div className="fixed flex z-10 inset-0 overflow-y-auto min-h-full bg-gray-500 bg-opacity-75 items-center justify-center"> 
+              <div className="fixed flex z-10 inset-0 overflow-y-auto min-h-full backdrop-filter backdrop-blur-sm bg-gray-900 bg-opacity-60 items-center justify-center"> 
                 <div ref={ref} className="w-3/5">
                   <Modal data={modalData} closeModal={closeModal} onApplied={onApplied}/>
                 </div>
